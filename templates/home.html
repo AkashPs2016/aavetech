@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block content %}
+    {% include 'components/_hero.html' %}
+    
+    <!-- Stats Section -->
+    <section class="py-10" style="background-color: var(--primary); color: white;">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4">
+                <div class="stats-item p-6 text-center">
+                    <div class="text-4xl font-bold mb-2" style="color: white;">500+</div>
+                    <div class="text-sm uppercase tracking-wider">Projects Completed</div>
+                </div>
+                <div class="stats-item p-6 text-center">
+                    <div class="text-4xl font-bold mb-2" style="color: white;">98%</div>
+                    <div class="text-sm uppercase tracking-wider">Client Satisfaction</div>
+                </div>
+                <div class="stats-item p-6 text-center">
+                    <div class="text-4xl font-bold mb-2" style="color: white;">10k+</div>
+                    <div class="text-sm uppercase tracking-wider">Vulnerabilities Found</div>
+                </div>
+                <div class="stats-item p-6 text-center">
+                    <div class="text-4xl font-bold mb-2" style="color: white;">24/7</div>
+                    <div class="text-sm uppercase tracking-wider">Support Available</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'components/_services.html' %}
+    {% include 'components/_about.html' %}
+    {% include 'components/_process.html' %}
+    {% include 'components/_contact.html' %}
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // Active nav link highlighting
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Toast notification function
+        function showToast(message, isSuccess = true) {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-4 right-4 px-6 py-4 rounded-lg shadow-lg text-white font-medium transform transition-all duration-300 translate-x-full ${isSuccess ? 'bg-green-500' : 'bg-red-500'}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            // Trigger reflow
+            toast.offsetHeight;
+            
+            // Slide in
+            toast.classList.remove('translate-x-full');
+            toast.classList.add('translate-x-0');
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                toast.classList.remove('translate-x-0');
+                toast.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 5000);
+        }
+
+        // Form submission
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+
+        contactForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            
+            // Disable submit button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Sending...
+            `;
+
+            try {
+                const formData = new FormData(contactForm);
+                console.log(formData);
+                const response = await fetch('/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                console.log(data);
+                
+                if (response.ok && data.success) {
+                    showToast(data.message || 'Thank you! Your message has been sent successfully.');
+                    contactForm.reset();
+                } else {
+                    showToast(data.message || 'Failed to send message. Please try again.', false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('An error occurred. Please try again later.', false);
+            } finally {
+                // Re-enable submit button and restore original text
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        });
+    </script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'961291e9944d7f8b',t:'MTc1Mjg0NzkwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+    <iframe height="1" width="1"
+        style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe>
+
+    <span id="PING_IFRAME_FORM_DETECTION" style="display: none;"></span>
+{% endblock content %}

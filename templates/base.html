@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aavetech - Professional Ethical Hacking Services | Cybersecurity Experts</title>
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description"
+        content="Aavetech provides professional ethical hacking and cybersecurity services to protect your business from digital threats. Expert penetration testing and security solutions.">
+    <meta name="keywords"
+        content="ethical hacking, cybersecurity, penetration testing, security audit, vulnerability assessment, Aavetech">
+    <meta name="author" content="Aavetech">
+    <meta property="og:title" content="Aavetech - Professional Ethical Hacking Services">
+    <meta property="og:description"
+        content="Protect your business with expert ethical hacking and cybersecurity services.">
+    <meta property="og:url" content="https://www.aavetech.in/">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://www.aavetech.in/">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        :root {
+            --primary: #0F172A;
+            --primary-dark: #0A1128;
+            --accent: #FFC107;
+            --accent-blue: #1E40AF;
+            --accent-purple: #7C3AED;
+            --text-primary: #E2E8F0;
+            --text-secondary: #64748B;
+            --bg-light: #1A202C;
+            --bg-dark: #0A1128;
+            --success: #34D399;
+            --warning: #FBBF24;
+            --error: #F87171;
+            --border-radius: 0.5rem;
+            --transition: all 0.3s ease;
+            --glow: 0 0 10px var(--accent), 0 0 20px var(--accent-blue);
+            --card-bg: rgba(15, 23, 42, 0.1);
+            --card-border: rgba(15, 23, 42, 0.2);
+        }
+        html {
+            scroll-behavior: smooth;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            min-height: 100%;
+        }
+        body {
+            background: transparent;
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 180, 216, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 157, 0.1) 0%, transparent 20%);
+        }
+        h1, h2, h3, h4, h5, h6, .font-mono, .terminal, .terminal-content, .nav-link {
+            font-family: 'JetBrains Mono', monospace !important;
+            letter-spacing: -0.02em;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        .header-logo {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.03em;
+            position: relative;
+            display: inline-block;
+        }
+        .header-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        .header-logo:hover::after {
+            width: 100%;
+        }
+        .nav-link {
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+            margin: 0 1rem;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover {
+            color: var(--accent);
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .btn-hacker {
+            background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent) 100%);
+            color: #0a0f1e;
+            border-radius: 4px;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 157, 0.2);
+        }
+        .btn-hacker:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 157, 0.3);
+            color: #0a0f1e;
+        }
+        .btn-hacker::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-blue) 100%);
+            transition: width 0.5s ease;
+            z-index: -1;
+        }
+        .btn-hacker:hover::before {
+            width: 100%;
+        }
+        .terminal {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        .terminal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent));
+        }
+        .terminal:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+        .terminal-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            padding-left: 1rem;
+        }
+        .terminal-circle {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        .terminal-content {
+            margin-top: 2rem;
+            color: #e2e8f0;
+        }
+        .typing {
+            border-right: 0.15em solid var(--accent);
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent) }
+        }
+        .service-card {
+            transition: var(--transition);
+            background: #181f2a;
+            border: 1px solid #232b3b;
+            box-shadow: 0 2px 16px 0 #0f172a44;
+        }
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 4px 32px 0 var(--accent-blue);
+            border-color: var(--accent);
+        }
+        .stats-item {
+            position: relative;
+        }
+        .stats-item::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 25%;
+            height: 50%;
+            width: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .stats-item:last-child::after {
+            display: none;
+        }
+        .nav-link {
+            position: relative;
+            color: var(--accent-blue);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .active::after {
+            width: 100%;
+        }
+        .mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+        .mobile-menu.hidden {
+            transform: translateX(100%);
+        }
+    </style>
+</head>
+<body class="font-sans bg-[#F2F2F2] text-[#1E40AF]">
+    {% include 'components/_header.html' %}
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% include 'components/_footer.html' %}
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            // Close mobile menu when clicking on a nav link
+            const navLinks = document.querySelectorAll('#mobile-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
