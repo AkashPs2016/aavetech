@@ -1,0 +1,38 @@
+# Allow all search engines to crawl the website
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.aavetech.in/static/sitemap.xml
+
+# Disallow admin and private directories
+Disallow: /admin/
+Disallow: /private/
+
+# Allow all other pages
+Allow: /*
+
+# Crawl-delay: 10  # Uncomment and adjust if needed to limit crawl rate
+
+# Additional rules for specific search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Block specific files
+Disallow: /*.json$
+Disallow: /*.xml$
+
+# Allow media files
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$

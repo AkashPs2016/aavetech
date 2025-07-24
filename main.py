@@ -3,6 +3,7 @@ import requests
 from flask import Flask, render_template, request, jsonify, flash, redirect, url_for
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
+from datetime import datetime, timezone
 
 # Load environment variables from .env file
 load_dotenv()
@@ -99,7 +100,8 @@ def send_contact_email(name, email, subject, message):
 
 @app.route('/')
 def home():
-    return render_template('home.html', theme=THEME)
+    year = datetime.now(tz=timezone.utc).year
+    return render_template('home.html', theme=THEME, year=year)
 
 @app.route('/contact', methods=['POST'])
 def contact():
@@ -110,32 +112,10 @@ def contact():
             email = request.form.get('email', '').strip()
             subject = request.form.get('subject', '').strip()
             message = request.form.get('message', '').strip()
+            send_contact_email(name, email, subject, message)
+            send_ntfy_notification(name, email, subject, message)
+            return render_template('home.html', theme=THEME, year=year)
             
-            # Validate required fields
-            if not all([name, email, subject, message]):
-                return jsonify({
-                    'success': False,
-                    'message': 'All fields are required.'
-                }), 400
-            
-            # Send email notification
-            # email_sent = send_contact_email(name, email, subject, message)
-            email_sent = None
-            
-            # Send ntfy.sh notification
-            ntfy_sent = send_ntfy_notification(name, email, subject, message)
-            
-            if email_sent or ntfy_sent:
-                return jsonify({
-                    'success': True,
-                    'message': 'Thank you for your message! We will get back to you soon.'
-                })
-            else:
-                return jsonify({
-                    'success': False,
-                    'message': 'Failed to send notifications. Please try again later.'
-                }), 500
-                
         except Exception as e:
             print(f"Error processing contact form: {e}")
             return jsonify({
